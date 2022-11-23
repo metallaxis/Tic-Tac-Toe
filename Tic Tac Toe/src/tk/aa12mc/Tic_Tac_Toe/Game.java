@@ -1,6 +1,6 @@
 package tk.aa12mc.Tic_Tac_Toe;
 
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,28 +9,28 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class GameFrame extends JFrame {
+public class Game extends JFrame {
+	private JPanel GamePanel = new JPanel();
 	private JButton[][] button = new JButton[3][3];
 	private int spaces = 9;
 	private long time, start, end;
 	private ButtonListener buttonListener = new ButtonListener();
 	private Settings settings;
-	private ImageIcon playerIcon;
-	private ImageIcon opponentIcon;
-	private String playerName;
-	private String opponentName;
+	private ImageIcon playerIcon, opponentIcon;
+	private String playerName, opponentName;
 
-	GameFrame(Settings settings) {
+	Game(Settings settings) {
 		this.settings = settings;
+		GamePanel.setLayout(new GridLayout(3, 3, 0, 0));
 		choose();
 		this.setTitle("TIC TAC TOE"); // sets title of the JFrame
 		this.setIconImage(Constants.GAMEFRAME_ICON.getImage()); // Set GUI icon
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit of application
 		this.setResizable(false); // Disable or enable resizing the this
-		this.getContentPane().setBackground(new Color(255, 255, 255)); // Change Background color
-
+		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				button[i][j] = new JButton();
@@ -39,14 +39,15 @@ public class GameFrame extends JFrame {
 				button[i][j].addActionListener(buttonListener);
 				button[i][j].setSize(300, 300);
 				button[i][j].setFocusable(false);
-				this.add(button[i][j]);
+				GamePanel.add(button[i][j]);
 			}
 		}
 		this.setSize(900, 937); // sets x and y dimensions
 		this.setLocationRelativeTo(null);
-		this.setLayout(new GridLayout(3, 3, 0, 0));
+		this.setLayout(new BorderLayout());
 		this.setVisible(true); // make GUI visible
 		start = System.currentTimeMillis();
+		this.add(GamePanel, BorderLayout.CENTER);
 	}
 
 	public void choose() {
@@ -337,8 +338,8 @@ public class GameFrame extends JFrame {
 				JOptionPane.INFORMATION_MESSAGE, null, Constants.RESTART_RESPONSES, -1);
 		if (restart == 0) {
 			this.dispose();
-			new GameFrame(settings);
-		} else if (restart == 1){
+			new Game(settings);
+		} else if (restart == 1) {
 			dispose();
 			new Settings();
 		} else if (restart == 2) {
@@ -405,11 +406,10 @@ public class GameFrame extends JFrame {
 		ImageIcon tempIcon = playerIcon;
 		playerIcon = opponentIcon;
 		opponentIcon = tempIcon;
-
 		String tempString = playerName;
 		playerName = opponentName;
 		opponentName = tempString;
-		
+
 		return false;
 	}
 
