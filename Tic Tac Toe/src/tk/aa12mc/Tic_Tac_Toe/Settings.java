@@ -8,8 +8,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import database.DBConnection;
+import database.User;
 
 public class Settings implements ActionListener {
 
@@ -17,7 +22,7 @@ public class Settings implements ActionListener {
 	private JButton done = new JButton();
 	private JButton register = new JButton();
 	private JComboBox<String> box = new JComboBox<String>(Constants.SETTINGS_OPTIONS);
-	private String name1, name2;
+	private String name1, name2, pass1, pass2;
 	private int level;
 	private JRadioButton[] option = new JRadioButton[3];
 	private ButtonGroup group = new ButtonGroup();
@@ -32,9 +37,9 @@ public class Settings implements ActionListener {
 	private JTextField player = new JTextField();
 	private JTextField playerX = new JTextField();
 	private JTextField playerO = new JTextField();
-	private JTextField pass = new JTextField();
-	private JTextField passX = new JTextField();
-	private JTextField passO = new JTextField();
+	private JPasswordField pass = new JPasswordField();
+	private JPasswordField passX = new JPasswordField();
+	private JPasswordField passO = new JPasswordField();
 
 	public Settings() {
 
@@ -59,42 +64,42 @@ public class Settings implements ActionListener {
 		done.setText("Done");
 		done.setBounds(77, 162, 80, 70);
 		done.addActionListener(this);
-		
+
 		register.setText("Sign up");
 		register.setBounds(67, 242, 100, 20);
 		register.addActionListener(this);
-		
+
 		name.setText("Player:");
 		name.setBounds(30, 50, 100, 20);
 
 		player.setBounds(105, 52, 100, 20);
-		
+
 		password.setText("Password:");
 		password.setBounds(30, 70, 100, 20);
-		
+
 		pass.setBounds(105, 72, 100, 20);
 
 		names.setText("Put your names bellow:");
 		names.setBounds(30, 20, 200, 50);
 
-		nameX.setText("Player X:");
+		nameX.setText("Player 1:");
 		nameX.setBounds(30, 50, 200, 50);
 
 		playerX.setBounds(105, 65, 100, 20);
-		
+
 		passwordX.setText("Password:");
 		passwordX.setBounds(30, 85, 100, 20);
-		
+
 		passX.setBounds(105, 87, 100, 20);
 
-		nameO.setText("Player 0:");
+		nameO.setText("Player 2:");
 		nameO.setBounds(30, 100, 200, 50);
 
 		playerO.setBounds(105, 115, 100, 20);
-		
+
 		passwordO.setText("Password:");
 		passwordO.setBounds(30, 135, 100, 20);
-		
+
 		passO.setBounds(105, 137, 100, 20);
 
 		difficulty.setText("Select a difficulty:");
@@ -131,25 +136,48 @@ public class Settings implements ActionListener {
 		int s = box.getSelectedIndex();
 
 		if (e.getSource() == done) {
-			frame.dispose();
 			switch (s) {
 			case 0:
-				name1 = playerX.getText();
-				name2 = playerO.getText();
-				level = -1;
+				User user1 = DBConnection.findUser(name1, pass1);
+				User user2 = DBConnection.findUser(name2, pass2);
+
+				if (user1 != null && user2 != null) {
+					frame.dispose();
+					name1 = playerX.getText();
+					name2 = playerO.getText();
+					level = -1;
+					new Game(this);
+				} else if (user1 == null && user2 != null) {
+					JOptionPane.showMessageDialog(frame, "Player 1: Username and password do not match", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else if (user1 != null && user2 == null) {
+					JOptionPane.showMessageDialog(frame, "Player 2: Username and password do not match", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(frame, "Usernames and passwords do not match", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 				break;
 			case 1:
-				name1 = player.getText();
-				name2 = "Computer";
-				if (option[0].isSelected()) {
-					level = 0;
-				} else if (option[1].isSelected()) {
-					level = 1;
-				} else if (option[2].isSelected()) {
-					level = 2;
+				User user = DBConnection.findUser(name1, pass1);
+
+				if (user != null) {
+					name1 = player.getText();
+					name2 = "Computer";
+					if (option[0].isSelected()) {
+						level = 0;
+					} else if (option[1].isSelected()) {
+						level = 1;
+					} else if (option[2].isSelected()) {
+						level = 2;
+					}
+					new Game(this);
+				} else {
+					JOptionPane.showMessageDialog(frame, "Username and password do not match", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
+				break;
 			}
-			new Game(this);
 		} else if (e.getSource() == register) {
 			new Register();
 		}
