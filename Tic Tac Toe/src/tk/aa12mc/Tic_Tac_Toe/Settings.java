@@ -2,6 +2,8 @@ package tk.aa12mc.Tic_Tac_Toe;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -22,7 +24,7 @@ public class Settings implements ActionListener {
 	private JButton done = new JButton();
 	private JButton register = new JButton();
 	private JComboBox<String> box = new JComboBox<String>(Constants.SETTINGS_OPTIONS);
-	private String name1, name2, pass1, pass2;
+	private String name1, name2, pass1, pass2, max_Char;
 	private int level;
 	private JRadioButton[] option = new JRadioButton[3];
 	private ButtonGroup group = new ButtonGroup();
@@ -73,11 +75,27 @@ public class Settings implements ActionListener {
 		name.setBounds(30, 50, 100, 20);
 
 		player.setBounds(105, 52, 100, 20);
+		player.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (player.getText().length() > 20) {
+					max_Char = "Allowed maximum of 20 characters in username";
+					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		password.setText("Password:");
 		password.setBounds(30, 70, 100, 20);
 
 		pass.setBounds(105, 72, 100, 20);
+		pass.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (String.valueOf(pass.getPassword()).length() > 20) {
+					max_Char = "Allowed maximum of 20 characters in password";
+					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		names.setText("Put your names bellow:");
 		names.setBounds(30, 20, 200, 50);
@@ -86,21 +104,53 @@ public class Settings implements ActionListener {
 		nameX.setBounds(30, 50, 200, 50);
 
 		playerX.setBounds(105, 65, 100, 20);
+		playerX.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (playerX.getText().length() > 20) {
+					max_Char = "Allowed maximum of 20 characters in username";
+					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		passwordX.setText("Password:");
 		passwordX.setBounds(30, 85, 100, 20);
 
 		passX.setBounds(105, 87, 100, 20);
+		passX.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (String.valueOf(passX.getPassword()).length() > 20) {
+					max_Char = "Allowed maximum of 20 characters in password";
+					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		nameO.setText("Player 2:");
 		nameO.setBounds(30, 100, 200, 50);
 
 		playerO.setBounds(105, 115, 100, 20);
+		playerO.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (playerO.getText().length() > 20) {
+					max_Char = "Allowed maximum of 20 characters in username";
+					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		passwordO.setText("Password:");
 		passwordO.setBounds(30, 135, 100, 20);
 
 		passO.setBounds(105, 137, 100, 20);
+		passO.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (String.valueOf(passO.getPassword()).length() > 20) {
+					max_Char = "Allowed maximum of 20 characters in password";
+					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		difficulty.setText("Select a difficulty:");
 		difficulty.setBounds(30, 80, 200, 50);
