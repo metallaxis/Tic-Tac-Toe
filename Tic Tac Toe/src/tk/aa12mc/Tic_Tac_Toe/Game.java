@@ -30,7 +30,7 @@ public class Game extends JFrame {
 		this.setIconImage(Constants.GAMEFRAME_ICON.getImage()); // Set GUI icon
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit of application
 		this.setResizable(false); // Disable or enable resizing the this
-		
+
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				button[i][j] = new JButton();

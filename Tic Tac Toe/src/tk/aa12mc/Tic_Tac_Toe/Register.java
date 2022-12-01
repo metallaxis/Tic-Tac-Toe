@@ -41,7 +41,7 @@ public class Register implements ActionListener {
 		Done.setText("Done");
 		Done.setBounds(77, 120, 80, 70);
 		Done.addActionListener(this);
-		
+
 		Details.setText("Enter your details bellow:");
 		Details.setBounds(30, 10, 200, 50);
 
@@ -50,12 +50,12 @@ public class Register implements ActionListener {
 
 		player.setBounds(105, 45, 100, 20);
 		player.addKeyListener(new KeyAdapter() {
-		    public void keyTyped(KeyEvent e) { 
-		    	if (player.getText().length() > 20) {
+			public void keyTyped(KeyEvent e) {
+				if (player.getText().length() > 20) {
 					max_Char = "Allowed maximum of 20 characters in username";
 					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
 				}
-		    }  
+			}
 		});
 
 		Email.setText("Email:");
@@ -63,12 +63,12 @@ public class Register implements ActionListener {
 
 		email1.setBounds(105, 65, 100, 20);
 		email1.addKeyListener(new KeyAdapter() {
-		    public void keyTyped(KeyEvent e) { 
-		    	if (player.getText().length() > 40) {
+			public void keyTyped(KeyEvent e) {
+				if (player.getText().length() > 40) {
 					max_Char = "Allowed maximum of 40 characters in email";
 					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
 				}
-		    }  
+			}
 		});
 
 		Password.setText("Password:");
@@ -76,12 +76,12 @@ public class Register implements ActionListener {
 
 		pass.setBounds(105, 85, 100, 20);
 		pass.addKeyListener(new KeyAdapter() {
-		    public void keyTyped(KeyEvent e) { 
+			public void keyTyped(KeyEvent e) {
 				if (String.valueOf(pass.getPassword()).length() > 20) {
 					max_Char = "Allowed maximum of 20 characters in password";
 					JOptionPane.showMessageDialog(frame, max_Char, "Error", JOptionPane.ERROR_MESSAGE);
 				}
-		    }  
+			}
 		});
 
 		frame.add(Done);
@@ -107,6 +107,7 @@ public class Register implements ActionListener {
 			if (findUser == null) {
 				DBConnection.addUser(username, email, password);
 				frame.dispose();
+				new Settings();
 			} else {
 				JOptionPane.showMessageDialog(frame, "An account with this username already exists", "Error",
 						JOptionPane.ERROR_MESSAGE);

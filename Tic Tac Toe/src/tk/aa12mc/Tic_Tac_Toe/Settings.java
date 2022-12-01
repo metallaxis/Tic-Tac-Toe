@@ -188,13 +188,14 @@ public class Settings implements ActionListener {
 		if (e.getSource() == done) {
 			switch (s) {
 			case 0:
+				name1 = playerX.getText();
+				name2 = playerO.getText();
+
 				User user1 = DBConnection.findUser(name1, pass1);
 				User user2 = DBConnection.findUser(name2, pass2);
 
 				if (user1 != null && user2 != null) {
 					frame.dispose();
-					name1 = playerX.getText();
-					name2 = playerO.getText();
 					level = -1;
 					new Game(this);
 				} else if (user1 == null && user2 != null) {
@@ -209,11 +210,13 @@ public class Settings implements ActionListener {
 				}
 				break;
 			case 1:
+				name1 = player.getText();
+				name2 = "Computer";
+
 				User user = DBConnection.findUser(name1, pass1);
 
 				if (user != null) {
-					name1 = player.getText();
-					name2 = "Computer";
+					frame.dispose();
 					if (option[0].isSelected()) {
 						level = 0;
 					} else if (option[1].isSelected()) {
@@ -229,6 +232,7 @@ public class Settings implements ActionListener {
 				break;
 			}
 		} else if (e.getSource() == register) {
+			frame.dispose();
 			new Register();
 		}
 
