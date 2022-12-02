@@ -29,10 +29,12 @@ public class Game extends JFrame {
 	private ButtonListener buttonListener = new ButtonListener();
 	private Settings settings;
 	private ImageIcon playerIcon, opponentIcon;
-	private ImageIcon leftTurn = new ImageIcon(Main.class.getResource("/resources/leftTurn.png"));
-	private ImageIcon rightTurn = new ImageIcon(Main.class.getResource("/resources/rightTurn.png"));
-	private Image leftImage = leftTurn.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
-	private Image rightImage = rightTurn.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+	private ImageIcon leftTurnDefaultSize = new ImageIcon(Main.class.getResource("/resources/leftTurn.png"));
+	private ImageIcon rightTurnDefaultSize = new ImageIcon(Main.class.getResource("/resources/rightTurn.png"));
+	private Image leftImage = leftTurnDefaultSize.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+	private Image rightImage = rightTurnDefaultSize.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+	private ImageIcon leftTurn = new ImageIcon(leftImage);
+	private ImageIcon rightTurn = new ImageIcon(rightImage);
 	private String playerName, opponentName;
 
 	Game(Settings settings) {
@@ -47,9 +49,6 @@ public class Game extends JFrame {
 
 		turn.setHorizontalAlignment(JLabel.CENTER);
 		Player2.setHorizontalAlignment(JLabel.RIGHT);
-
-		leftTurn = new ImageIcon(leftImage);
-		rightTurn = new ImageIcon(rightImage);
 
 		PlayerPanel.add(Player1);
 		PlayerPanel.add(turn);
