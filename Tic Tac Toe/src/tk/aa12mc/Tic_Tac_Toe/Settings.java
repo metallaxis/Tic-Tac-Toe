@@ -189,11 +189,12 @@ public class Settings implements ActionListener {
 			switch (s) {
 			case 0:
 				name1 = playerX.getText();
+				pass1 = String.valueOf(passX.getPassword());
 				name2 = playerO.getText();
+				pass2 = String.valueOf(passO.getPassword());
 
 				User user1 = DBConnection.findUser(name1, pass1);
 				User user2 = DBConnection.findUser(name2, pass2);
-
 				if (user1 != null && user2 != null) {
 					frame.dispose();
 					level = -1;
@@ -211,6 +212,7 @@ public class Settings implements ActionListener {
 				break;
 			case 1:
 				name1 = player.getText();
+				pass1 = String.valueOf(pass.getPassword());
 				name2 = "Computer";
 
 				User user = DBConnection.findUser(name1, pass1);

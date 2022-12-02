@@ -2,34 +2,65 @@ package tk.aa12mc.Tic_Tac_Toe;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Game extends JFrame {
+	private JPanel PlayerPanel = new JPanel();
 	private JPanel GamePanel = new JPanel();
 	private JButton[][] button = new JButton[3][3];
+	private JLabel Player1 = new JLabel();
+	private JLabel Player2 = new JLabel();
+	private JLabel turn = new JLabel();
+	private JLabel time1 = new JLabel();
+	private JLabel time2 = new JLabel();
+	private JLabel nothing = new JLabel();
 	private int spaces = 9;
 	private long time, start, end;
 	private ButtonListener buttonListener = new ButtonListener();
 	private Settings settings;
 	private ImageIcon playerIcon, opponentIcon;
+	private ImageIcon leftTurn = new ImageIcon(Main.class.getResource("/resources/leftTurn.png"));
+	private ImageIcon rightTurn = new ImageIcon(Main.class.getResource("/resources/rightTurn.png"));
+	private Image leftImage = leftTurn.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+	private Image rightImage = rightTurn.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 	private String playerName, opponentName;
 
 	Game(Settings settings) {
 		this.settings = settings;
+		PlayerPanel.setLayout(new GridLayout(1, 3, 0, 0));
 		GamePanel.setLayout(new GridLayout(3, 3, 0, 0));
 		choose();
 		this.setTitle("TIC TAC TOE"); // sets title of the JFrame
 		this.setIconImage(Constants.GAMEFRAME_ICON.getImage()); // Set GUI icon
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit of application
 		this.setResizable(false); // Disable or enable resizing the this
+
+		turn.setHorizontalAlignment(JLabel.CENTER);
+		Player2.setHorizontalAlignment(JLabel.RIGHT);
+
+		leftTurn = new ImageIcon(leftImage);
+		rightTurn = new ImageIcon(rightImage);
+
+		PlayerPanel.add(Player1);
+		PlayerPanel.add(turn);
+		PlayerPanel.add(Player2);
+		// PlayerPanel.add(time1);
+		// PlayerPanel.add(nothing);
+		// PlayerPanel.add(time2);
+
+		Player1.setText(settings.getName1());
+		Player2.setText(settings.getName2());
+		turn.setIcon(leftTurn);
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -47,6 +78,7 @@ public class Game extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.setVisible(true); // make GUI visible
 		start = System.currentTimeMillis();
+		this.add(PlayerPanel, BorderLayout.NORTH);
 		this.add(GamePanel, BorderLayout.CENTER);
 	}
 
@@ -410,6 +442,11 @@ public class Game extends JFrame {
 		playerName = opponentName;
 		opponentName = tempString;
 
+		if (turn.getIcon().equals(leftTurn)) {
+			turn.setIcon(rightTurn);
+		} else {
+			turn.setIcon(leftTurn);
+		}
 		return false;
 	}
 

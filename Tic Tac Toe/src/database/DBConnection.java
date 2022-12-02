@@ -52,7 +52,7 @@ public class DBConnection {
 			stmt.setString(1, username);
 			stmt.setString(2, email);
 			stmt.setString(3, password);
-			stmt.execute();
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Cannot execute " + stmt);
 			e.printStackTrace();
