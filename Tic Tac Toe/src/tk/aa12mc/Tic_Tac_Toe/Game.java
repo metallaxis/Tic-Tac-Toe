@@ -64,8 +64,8 @@ public class Game extends JFrame {
 		Player1.setText(settings.getName1());
 		turn.setIcon(leftTurn);
 		Player2.setText(settings.getName2());
-		timer1.setText("Time:" + time1 + "seconds");
-		timer2.setText("Time:" + time2 + "seconds");
+		timer1.setText("Time:" + time1 + " seconds");
+		timer2.setText("Time:" + time2 + " seconds");
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -86,31 +86,33 @@ public class Game extends JFrame {
 		this.add(PlayerPanel, BorderLayout.NORTH);
 		this.add(GamePanel, BorderLayout.CENTER);
 
-		if (Player1.getText() == playerName) {
-			timer.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (time1 == 0 || checkWin() || Player1.getText() != playerName) {
-						timer.stop();
-					}
-					timer1.setText("Time:" + time1 + "seconds");
-					time1--;
-				}
-			});
-			timer.start();
+		boolean win;
+
+		if (checkWin()) {
+			win = true;
 		} else {
-			timer.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (time2 == 0 || checkWin()) {
-						timer.stop();
-					}
-					timer2.setText("Time:" + time1 + "seconds");
-					time1--;
-				}
-			});
-			timer.start();
+			win = false;
 		}
+
+		timer.start();
+		timer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (time1 == 0 || win || Player1.getText() != playerName) {
+					timer.stop();
+				} else if (time1 != 0 || !win || Player1.getText() == playerName) {
+					timer.start();
+					timer1.setText("Time:" + time1 + " seconds");
+					time1--;
+				} else if (time2 == 0 || win) {
+					timer.stop();
+				} else if (time != 0 || !win || Player2.getText() != playerName) {
+					timer.start();
+					timer2.setText("Time:" + time1 + " seconds");
+					time2--;
+				}
+			}
+		});
 	}
 
 	public void choose() {
@@ -136,6 +138,8 @@ public class Game extends JFrame {
 	}
 
 	public void Computer_Mode() {
+		
+		int wait = 5;
 		switch (settings.getLevel()) {
 		case -1:
 			return;
