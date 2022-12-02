@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 @SuppressWarnings("serial")
 public class Game extends JFrame {
@@ -21,9 +22,11 @@ public class Game extends JFrame {
 	private JLabel Player1 = new JLabel();
 	private JLabel Player2 = new JLabel();
 	private JLabel turn = new JLabel();
-	private JLabel time1 = new JLabel();
-	private JLabel time2 = new JLabel();
+	private JLabel timer1 = new JLabel();
+	private JLabel timer2 = new JLabel();
 	private JLabel nothing = new JLabel();
+	private final Timer timer = new Timer(1000, null);
+	private long time1 = 120, time2 = 120;
 	private int spaces = 9;
 	private long time, start, end;
 	private ButtonListener buttonListener = new ButtonListener();
@@ -39,7 +42,7 @@ public class Game extends JFrame {
 
 	Game(Settings settings) {
 		this.settings = settings;
-		PlayerPanel.setLayout(new GridLayout(1, 3, 0, 0));
+		PlayerPanel.setLayout(new GridLayout(2, 3, 0, 0));
 		GamePanel.setLayout(new GridLayout(3, 3, 0, 0));
 		choose();
 		this.setTitle("TIC TAC TOE"); // sets title of the JFrame
@@ -49,17 +52,20 @@ public class Game extends JFrame {
 
 		turn.setHorizontalAlignment(JLabel.CENTER);
 		Player2.setHorizontalAlignment(JLabel.RIGHT);
+		timer2.setHorizontalAlignment(JLabel.RIGHT);
 
 		PlayerPanel.add(Player1);
 		PlayerPanel.add(turn);
 		PlayerPanel.add(Player2);
-		// PlayerPanel.add(time1);
-		// PlayerPanel.add(nothing);
-		// PlayerPanel.add(time2);
+		PlayerPanel.add(timer1);
+		PlayerPanel.add(nothing);
+		PlayerPanel.add(timer2);
 
 		Player1.setText(settings.getName1());
-		Player2.setText(settings.getName2());
 		turn.setIcon(leftTurn);
+		Player2.setText(settings.getName2());
+		timer1.setText("Time:" + time1 + "seconds");
+		timer2.setText("Time:" + time2 + "seconds");
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -79,6 +85,32 @@ public class Game extends JFrame {
 		start = System.currentTimeMillis();
 		this.add(PlayerPanel, BorderLayout.NORTH);
 		this.add(GamePanel, BorderLayout.CENTER);
+
+		if (Player1.getText() == playerName) {
+			timer.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (time1 == 0 || checkWin() || Player1.getText() != playerName) {
+						timer.stop();
+					}
+					timer1.setText("Time:" + time1 + "seconds");
+					time1--;
+				}
+			});
+			timer.start();
+		} else {
+			timer.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (time2 == 0 || checkWin()) {
+						timer.stop();
+					}
+					timer2.setText("Time:" + time1 + "seconds");
+					time1--;
+				}
+			});
+			timer.start();
+		}
 	}
 
 	public void choose() {
