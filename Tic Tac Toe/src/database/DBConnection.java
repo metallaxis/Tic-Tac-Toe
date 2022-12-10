@@ -13,7 +13,7 @@ public class DBConnection {
 	private static final String password = "";
 	private static final String serverName = "localhost";
 	private static final int portNumber = 3306;
-	private static final String dbName = "tictactoe";
+	private static final String dbName = "tic-tac-toe";
 	private static Connection conn = null;
 
 	private static void connect() {
