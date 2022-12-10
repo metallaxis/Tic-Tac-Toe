@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import database.DBConnection;
 import database.User;
 
-public class Settings implements ActionListener {
+public class Settings implements ActionListene {
 
 	private JFrame frame = new JFrame("Settings");
 	private JButton done = new JButton();
