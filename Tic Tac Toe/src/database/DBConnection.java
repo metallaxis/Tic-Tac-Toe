@@ -9,9 +9,9 @@ import java.util.Properties;
 
 public class DBConnection {
 
-	private static final String userName = "root";
+	private static final String userName = "Guest";
 	private static final String password = "";
-	private static final String serverName = "localhost";
+	private static final String serverName = "aa12mc.tk";
 	private static final int portNumber = 3306;
 	private static final String dbName = "tic-tac-toe";
 	private static Connection conn = null;
