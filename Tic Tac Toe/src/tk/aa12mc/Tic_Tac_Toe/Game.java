@@ -460,12 +460,12 @@ public class Game extends JFrame {
 		spaces--;
 		if (checkWin()) {
 			endTimer();
-			JOptionPane.showMessageDialog(this, playerName + " won! Game Lasted: " + time);
+			JOptionPane.showMessageDialog(this, playerName + " won! Game Lasted: " + time + " seconds");
 			restart();
 			return true;
 		} else if (spaces == 0) {
 			endTimer();
-			JOptionPane.showMessageDialog(this, "It's a draw! Game Lasted: " + time);
+			JOptionPane.showMessageDialog(this, "It's a draw! Game Lasted: " + time + " seconds");
 			restart();
 			return true;
 		}
