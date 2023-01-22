@@ -25,7 +25,8 @@ public class Game extends JFrame {
 	private JLabel timer1 = new JLabel();
 	private JLabel timer2 = new JLabel();
 	private JLabel nothing = new JLabel();
-	private final Timer timer = new Timer(1000, null);
+    private Timer timers1;
+    private Timer timers2;
 	private long time1 = 120, time2 = 120;
 	private int spaces = 9;
 	private long time, start, end;
@@ -64,8 +65,14 @@ public class Game extends JFrame {
 		Player1.setText(settings.getName1());
 		turn.setIcon(leftTurn);
 		Player2.setText(settings.getName2());
+		timers1 = new Timer(1000, new TimerListener(1));
+        timers1.setRepeats(true);
 		timer1.setText("Time:" + time1 + " seconds");
-		timer2.setText("Time:" + time2 + " seconds");
+		if (!settings.getName2().equals("Computer")) {
+	        timers2 = new Timer(1000, new TimerListener(2));
+	        timers2.setRepeats(true);
+			timer2.setText("Time:" + time2 + " seconds");
+		}
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -78,6 +85,7 @@ public class Game extends JFrame {
 				GamePanel.add(button[i][j]);
 			}
 		}
+		timers1.start();
 		this.setSize(900, 937); // sets x and y dimensions
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
@@ -85,34 +93,6 @@ public class Game extends JFrame {
 		start = System.currentTimeMillis();
 		this.add(PlayerPanel, BorderLayout.NORTH);
 		this.add(GamePanel, BorderLayout.CENTER);
-
-		boolean win;
-
-		if (checkWin()) {
-			win = true;
-		} else {
-			win = false;
-		}
-
-		timer.start();
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (time1 == 0 || win || Player1.getText() != playerName) {
-					timer.stop();
-				} else if (time1 != 0 || !win || Player1.getText() == playerName) {
-					timer.start();
-					timer1.setText("Time:" + time1 + " seconds");
-					time1--;
-				} else if (time2 == 0 || win) {
-					timer.stop();
-				} else if (time != 0 || !win || Player2.getText() != playerName) {
-					timer.start();
-					timer2.setText("Time:" + time1 + " seconds");
-					time2--;
-				}
-			}
-		});
 	}
 
 	public void choose() {
@@ -138,22 +118,58 @@ public class Game extends JFrame {
 	}
 
 	public void Computer_Mode() {
-		
-		int wait = 5;
-		switch (settings.getLevel()) {
-		case -1:
-			return;
-		case 0:
-			easy_move();
-			return;
-		case 1:
-			medium_move();
-			return;
-		case 2:
-			hard_move();
-			return;
-		}
-	}
+	    Timer timer = new Timer(2000, new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            switch (settings.getLevel()) {
+	                case 0:
+	                	for (int i = 0; i < 3; i++) {
+	                        for (int j = 0; j < 3; j++) {
+	                            button[i][j].setEnabled(true);
+	                        }
+	                    }
+	                	timer2.setText("");
+	                    easy_move();
+	                    break;
+	                case 1:
+	                	for (int i = 0; i < 3; i++) {
+	                        for (int j = 0; j < 3; j++) {
+	                            button[i][j].setEnabled(true);
+	                        }
+	                    }
+	                	timer2.setText("");
+	                    medium_move();
+	                    break;
+	                case 2:
+	                	for (int i = 0; i < 3; i++) {
+	                        for (int j = 0; j < 3; j++) {
+	                            button[i][j].setEnabled(true);
+	                        }
+	                    }
+	                	timer2.setText("");
+	                    hard_move();
+	                    break;
+	            }
+	        }
+	    });
+	    timer.setRepeats(false);
+	    if (settings.getLevel() == 0 || settings.getLevel() == 1 || settings.getLevel() == 2) {
+	    	for (int i = 0; i < 3; i++) {
+		        for (int j = 0; j < 3; j++) {
+		            button[i][j].setEnabled(false);
+		        }
+		    }
+		    timer2.setText("Thinking...");
+	    	timer.start();
+	    } else {
+	    	if (Player1.getText().equals(playerName)) {
+                timers2.stop();
+                timers1.start();
+            } else {
+                timers1.stop();
+                timers2.start();
+            }
+	    }
+	    }
 
 	private void easy_move() {
 		Random random = new Random();
@@ -447,6 +463,22 @@ public class Game extends JFrame {
 		} else if (safe_equals(button[0][2], playerIcon) && safe_equals(button[1][1], playerIcon)
 				&& safe_equals(button[2][0], playerIcon)) {
 			return true;
+		} else if (time1 == 0) {
+			endTimer();
+			timers1.stop();
+			if (!settings.getName2().equals("Computer")) {
+				timers2.stop();
+			}
+			JOptionPane.showMessageDialog(this, opponentName + " won! Game Lasted: " + time + " seconds");
+			restart();
+		} else if (time2 == 0) {
+			endTimer();
+			timers1.stop();
+			if (!settings.getName2().equals("Computer")) {
+				timers2.stop();
+			}
+			JOptionPane.showMessageDialog(this, opponentName + " won! Game Lasted: " + time + " seconds");
+			restart();
 		}
 		return false;
 	}
@@ -460,11 +492,19 @@ public class Game extends JFrame {
 		spaces--;
 		if (checkWin()) {
 			endTimer();
+			timers1.stop();
+			if (!settings.getName2().equals("Computer")) {
+				timers2.stop();
+			}
 			JOptionPane.showMessageDialog(this, playerName + " won! Game Lasted: " + time + " seconds");
 			restart();
 			return true;
 		} else if (spaces == 0) {
 			endTimer();
+			timers1.stop();
+			if (!settings.getName2().equals("Computer")) {
+				timers2.stop();
+			}
 			JOptionPane.showMessageDialog(this, "It's a draw! Game Lasted: " + time + " seconds");
 			restart();
 			return true;
@@ -501,4 +541,26 @@ public class Game extends JFrame {
 			}
 		}
 	}
+	
+	private class TimerListener implements ActionListener {
+        private int player;
+        public TimerListener(int player) {
+            this.player = player;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            if (player == 1) {
+                if (time1 > 0) {
+                    time1--;
+                    timer1.setText("Time:" + time1 + " seconds");
+                }
+            } else {
+                if (time2 > 0) {
+                    time2--;
+                    timer2.setText("Time:" + time2 + " seconds");
+                }
+            }
+            checkWin();
+        }
+    }
 }
