@@ -11,7 +11,7 @@ public class DBConnection {
 
 	private static final String userName = "Guest";
 	private static final String password = "";
-	private static final String serverName = "aa12mc.tk";
+	private static final String serverName = "192.168.1.28";
 	private static final int portNumber = 3306;
 	private static final String dbName = "tic-tac-toe";
 	private static Connection conn = null;
@@ -22,7 +22,7 @@ public class DBConnection {
 		connectionProps.put("password", password);
 
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://" + serverName + ":" + portNumber + "/" + dbName,
+			conn = DriverManager.getConnection("jdbc:mariadb://" + serverName + ":" + portNumber + "/" + dbName,
 					connectionProps);
 		} catch (SQLException e) {
 			System.out.println("Cannot connect to database " + dbName + " !");
