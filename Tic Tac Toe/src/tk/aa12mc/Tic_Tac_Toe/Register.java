@@ -107,14 +107,17 @@ public class Register implements ActionListener {
 			if (username.length() < 1) {
 				JOptionPane.showMessageDialog(frame, "The username must be above 1 character long", "Error",
 						JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 			if (email.length() < 1) {
 				JOptionPane.showMessageDialog(frame, "The email must be above 1 character long", "Error",
 						JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 			if (password.length() < 1) {
 				JOptionPane.showMessageDialog(frame, "The password must be above 1 character long", "Error",
 						JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 			
 			if (locateUser == null) {
