@@ -107,5 +107,42 @@ public class DBConnection {
 
 		return user;
 	}
+	
+	public static User locateUser(String username) {
+		connect();
+		PreparedStatement stmt = null;
+		String query = "SELECT * FROM users WHERE username=?;";
+		ResultSet rs = null;
+		User user = null;
+		try {
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, username);
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				int id = rs.getInt("id");
+				String email = rs.getString("email");
+				String password = rs.getString("password");
+				user = new User(id, username, email, password);
+			}
+		} catch (SQLException e) {
+			System.out.println("Cannot execute " + stmt);
+			e.printStackTrace();
+			System.exit(0);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+				}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+		}
+		disconnect();
+
+		return user;
+	}
 
 }
