@@ -1,4 +1,4 @@
-package tk.aa12mc.Tic_Tac_Toe;
+package net.metallaxis.Tic_Tac_Toe;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +15,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import database.DBConnection;
-import database.User;
+import net.metallaxis.database.AuthenticationClient;
+import net.metallaxis.database.User;
 
 public class Settings implements ActionListener {
 
@@ -193,8 +193,8 @@ public class Settings implements ActionListener {
 				name2 = playerO.getText();
 				pass2 = String.valueOf(passO.getPassword());
 
-				User user1 = DBConnection.findUser(name1, pass1);
-				User user2 = DBConnection.findUser(name2, pass2);
+				User user1 = AuthenticationClient.login(name1, pass1);
+				User user2 = AuthenticationClient.login(name2, pass2);
 				if (user1 != null && user2 != null) {
 					frame.dispose();
 					level = -1;
@@ -215,7 +215,7 @@ public class Settings implements ActionListener {
 				pass1 = String.valueOf(pass.getPassword());
 				name2 = "Computer";
 
-				User user = DBConnection.findUser(name1, pass1);
+				User user = AuthenticationClient.login(name1, pass1);
 
 				if (user != null) {
 					frame.dispose();

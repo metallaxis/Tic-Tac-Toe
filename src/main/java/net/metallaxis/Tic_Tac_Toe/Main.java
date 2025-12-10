@@ -1,4 +1,4 @@
-package tk.aa12mc.Tic_Tac_Toe;
+package net.metallaxis.Tic_Tac_Toe;
 
 public class Main {
 

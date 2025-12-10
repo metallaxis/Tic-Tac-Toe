@@ -1,4 +1,4 @@
-package tk.aa12mc.Tic_Tac_Toe;
+package net.metallaxis.Tic_Tac_Toe;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -33,8 +33,8 @@ public class Game extends JFrame {
 	private ButtonListener buttonListener = new ButtonListener();
 	private Settings settings;
 	private ImageIcon playerIcon, opponentIcon;
-	private ImageIcon leftTurnDefaultSize = new ImageIcon(Main.class.getResource("/resources/leftTurn.png"));
-	private ImageIcon rightTurnDefaultSize = new ImageIcon(Main.class.getResource("/resources/rightTurn.png"));
+	private ImageIcon leftTurnDefaultSize = new ImageIcon(Main.class.getResource("/leftTurn.png"));
+	private ImageIcon rightTurnDefaultSize = new ImageIcon(Main.class.getResource("/rightTurn.png"));
 	private Image leftImage = leftTurnDefaultSize.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 	private Image rightImage = rightTurnDefaultSize.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 	private ImageIcon leftTurn = new ImageIcon(leftImage);

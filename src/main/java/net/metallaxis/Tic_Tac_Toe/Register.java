@@ -1,4 +1,4 @@
-package tk.aa12mc.Tic_Tac_Toe;
+package net.metallaxis.Tic_Tac_Toe;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import database.DBConnection;
-import database.User;
+import net.metallaxis.database.AuthenticationClient;
+import net.metallaxis.database.User;
 
 public class Register implements ActionListener {
 
@@ -102,7 +102,7 @@ public class Register implements ActionListener {
 			email = email1.getText();
 			password = String.valueOf(pass.getPassword());
 
-			User locateUser = DBConnection.locateUser(username);
+			User locateUser = AuthenticationClient.locateUser(username);
 
 			if (username.length() < 1) {
 				JOptionPane.showMessageDialog(frame, "The username must be above 1 character long", "Error",
@@ -121,7 +121,7 @@ public class Register implements ActionListener {
 			}
 			
 			if (locateUser == null) {
-				DBConnection.addUser(username, email, password);
+				AuthenticationClient.addUser(username, email, password);
 				frame.dispose();
 				new Settings();
 			} else {
